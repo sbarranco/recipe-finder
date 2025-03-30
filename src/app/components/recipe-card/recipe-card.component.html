@@ -1,0 +1,20 @@
+<div class="app-recipe-card">
+    <div class="app-recipe-card__image-container">
+        <img class="app-recipe-card__image" [src]="recipe().strMealThumb" alt="{{ recipe().strMeal }}" />
+        <span class="app-recipe-card__favorite" (click)="triggerFavorite.emit(recipe())">
+            <i [class]="recipe().isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+        </span>
+    </div>
+    <hr class="app-recipe-card__divider" />
+    <h2 class="app-recipe-card__title">{{ recipe().strMeal }}</h2>
+    <p class="app-recipe-card__description">
+        {{ recipe().strInstructions | slice: 0:100 }}...
+    </p>
+    <div class="app-recipe-card__chips">
+        <span class="app-recipe-card__chip">{{ recipe().strCategory }}</span>
+        <span class="app-recipe-card__chip">{{ recipe().strArea }}</span>
+    </div>
+    <button class="app-recipe-card__button" (click)="viewDetails.emit()">
+        View Recipe
+    </button>
+</div>
