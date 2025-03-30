@@ -1,12 +1,19 @@
-<div>
-  <h1>Recipe Finder</h1>
-  <p>Welcome to the Recipe Finder application!</p>
-  <nav>
-    <ul>
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/recipes">Recipes</a></li>
-      <li><a routerLink="/about">About</a></li>
-    </ul>
-  </nav>
+<nav class="app-nav">
+  <img src="assets/images/logo/logo.png" alt="Item Manager" class="app-nav__logo" />
+  <button class="app-nav__button" (click)="openFavoritesModal()">
+    Favorites
+  </button>
+</nav>
+<header class="app-header">
+  <h1 class="app-header__title">Welcome to the Recipe Finder!</h1>
+  <h2 class="app-header__subtitle">
+    Discover and save your favorite recipes.
+  </h2>
+</header>
+<main class="app-container">
+  <app-favorites [isOpen]="isFavoritesModalOpen()" (closeModal)="openFavoritesModal()"></app-favorites>
   <router-outlet></router-outlet>
-</div>
+</main>
+<footer class="app-footer">
+  <p class="app-footer__text">© 2025 Recipe Finder</p>
+</footer>

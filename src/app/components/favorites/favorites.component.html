@@ -1,0 +1,29 @@
+@if(isOpen()) {
+<div class="favorites" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+    <div class="favorites__dialog" role="document">
+        <div class="favorites__content">
+            <div class="favorites__header">
+                <h5 class="favorites__title" id="favoritesModalLabel">Favorites</h5>
+                <button type="button" class="favorites__close" aria-label="Close" (click)="closeModal.emit()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="favorites__body">
+                @for (item of favorites$ | async; track $index) {
+                <div class="favorites__item">
+                    <img [src]="item.strMealThumb" alt="{{ item.strMeal }}" class="favorites__item-image" />
+                    <div class="favorites__item-details">
+                        <span class="favorites__item-title">{{ item.strMeal }}</span>
+                        <button class="favorites__item-remove" (click)="onDeleteFavorites(item)">Remove</button>
+                        <button class="favorites__item-view" (click)="onViewRecipeDetails(item.idMeal)">View
+                            Recipe</button>
+                    </div>
+                </div>
+                } @empty {
+                <div>No favorites added.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}
