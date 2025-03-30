@@ -4,8 +4,14 @@ export interface Recipe {
   strCategory: string;
   strArea: string;
   strInstructions: string;
-  strIngredients: string[];
+  ingredients: Ingredients[];
   strMealThumb: string;
   strTags: string;
   strYoutube: string;
+  isFavorite?: boolean;
+}
+
+export interface Ingredients {
+  ingredient: string;
+  measure: string;
 }

@@ -43,16 +43,16 @@ export const AddFavoriteRecipe = createActionGroup({
   },
 });
 
-export const NavigateToRecipeDetailsActions = createActionGroup({
-  source: '[Recipe] Navigate to Recipe Details',
+export const GetRecipeDetailsActions = createActionGroup({
+  source: '[Recipe] Get Recipe Details',
   events: {
-    'Navigate to Recipe Details': props<{
+    'Get Recipe Details': props<{
       id: string;
     }>(),
-    'Navigate to Recipe Details Success': props<{
+    'Get Recipe Details Success': props<{
       recipe: Recipe;
     }>(),
-    'Navigate to Recipe Details Failure': props<{
+    'Get Recipe Details Failure': props<{
       error: string;
     }>(),
   },

@@ -58,12 +58,11 @@ const appReducer = createReducer(
   ),
 
   // Navigate to Recipe Details
-  on(
-    recipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetails,
-    (state) => setLoadingState(state, true)
+  on(recipeActions.GetRecipeDetailsActions.getRecipeDetails, (state) =>
+    setLoadingState(state, true)
   ),
   on(
-    recipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsSuccess,
+    recipeActions.GetRecipeDetailsActions.getRecipeDetailsSuccess,
     (state, action) => ({
       ...state,
       loading: false,
@@ -71,7 +70,7 @@ const appReducer = createReducer(
     })
   ),
   on(
-    recipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsFailure,
+    recipeActions.GetRecipeDetailsActions.getRecipeDetailsFailure,
     (state, action) => setErrorState(state, action.error)
   ),
 

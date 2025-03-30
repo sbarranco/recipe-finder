@@ -37,9 +37,9 @@ export class AppFacade {
     );
   }
 
-  navigateToRecipeDetails(id: string): void {
+  getRecipeDetails(id: string): void {
     this.store.dispatch(
-      fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetails({
+      fromRecipeActions.GetRecipeDetailsActions.getRecipeDetails({
         id,
       })
     );

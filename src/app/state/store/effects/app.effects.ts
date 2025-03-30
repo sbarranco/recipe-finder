@@ -54,21 +54,17 @@ export class AppEffects {
 
   getRecipeById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetails
-      ),
+      ofType(fromRecipeActions.GetRecipeDetailsActions.getRecipeDetails),
       mergeMap((action) => {
         return this.recipeService.getRecipeDetails(action.id).pipe(
           map((response) =>
-            fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsSuccess(
-              {
-                recipe: response,
-              }
-            )
+            fromRecipeActions.GetRecipeDetailsActions.getRecipeDetailsSuccess({
+              recipe: response,
+            })
           ),
           catchError((error) =>
             of(
-              fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsFailure(
+              fromRecipeActions.GetRecipeDetailsActions.getRecipeDetailsFailure(
                 error
               )
             )
@@ -82,8 +78,7 @@ export class AppEffects {
     () =>
       this.actions$.pipe(
         ofType(
-          fromRecipeActions.NavigateToRecipeDetailsActions
-            .navigateToRecipeDetailsSuccess
+          fromRecipeActions.GetRecipeDetailsActions.getRecipeDetailsSuccess
         ),
         tap(({ recipe }) => {
           this.router.navigate(['/recipes', recipe.idMeal]);
