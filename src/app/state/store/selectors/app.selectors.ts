@@ -3,25 +3,38 @@ import { AppState } from '../app.state';
 
 export const selectAppState = createFeatureSelector<AppState>('APP_STATE');
 
-export const selectAllItems = createSelector(
+export const selectRecipies = createSelector(
   selectAppState,
-  (state) => state?.items
+  (state) => state?.recipies
 );
+export const selectSelectedRecipe = createSelector(
+  selectAppState,
+  (state) => state?.selectedRecipe
+);
+
 export const selectLoading = createSelector(
   selectAppState,
   (state) => state?.loading
 );
-export const selectFavoriteItems = createSelector(
+export const selectFavoriteRecipies = createSelector(
   selectAppState,
-  (state) => state?.favoriteItems
+  (state) => state?.favoriteRecipies
 );
+
+export const selectError = createSelector(
+  selectAppState,
+  (state) => state?.error
+);
+
 export const selectCombinedItems = createSelector(
-  selectAllItems,
-  selectFavoriteItems,
+  selectRecipies,
+  selectFavoriteRecipies,
   (items, favoriteItems) => {
     return items.map((item) => ({
       ...item,
-      isFavorite: favoriteItems.some((favItem) => favItem.title === item.title),
+      isFavorite: favoriteItems.some(
+        (favItem) => favItem.idMeal === item.idMeal
+      ),
     }));
   }
 );

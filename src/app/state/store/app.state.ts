@@ -1,11 +1,13 @@
-import { Item } from '../models/item.model';
+import { Recipe } from '../models/recipe.model';
 
 export interface AppState {
-  items: Item[];
-  favoriteItems: Item[];
+  recipies: Recipe[];
+  selectedRecipe: Recipe | null;
+  favoriteRecipies: Recipe[];
   loading: boolean;
+  error: string | null;
 }
 
-export interface ItemState {
+export interface RecipeState {
   APP_STATE: AppState;
 }

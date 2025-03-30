@@ -1,53 +1,94 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ItemService } from '../../../services/items/items.service';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as fromItemActions from '../actions/app.actions';
-import { toQueryString } from '../../../utils/query-string.util';
+import * as fromRecipeActions from '../actions/app.actions';
+import { RecipeService } from '../../../services/recipe.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AppEffects {
   private readonly actions$ = inject(Actions);
-  private readonly itemService = inject(ItemService);
+  private readonly router = inject(Router);
+  private readonly recipeService = inject(RecipeService);
 
-  loadItems$ = createEffect(() =>
+  loadView$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromItemActions.LoadItemsActions.loadItems),
-      mergeMap((action) =>
-        this.itemService
-          .getItems(action.pagination?.limit, action.pagination?.start)
-          .pipe(
-            map((response) =>
-              fromItemActions.LoadItemsActions.loadItemsSuccess({
-                items: response.items,
-                pagination: action.pagination,
-              })
-            ),
-            catchError(() =>
-              of(fromItemActions.LoadItemsActions.loadItemsFailure())
+      ofType(fromRecipeActions.LoadRandomRecipeActions.loadRandomRecipe),
+      mergeMap(() =>
+        this.recipeService.getRandomRecipe().pipe(
+          map((response) =>
+            fromRecipeActions.LoadRandomRecipeActions.loadRandomRecipeSuccess({
+              recipe: response,
+            })
+          ),
+          catchError((error) =>
+            of(
+              fromRecipeActions.LoadRandomRecipeActions.loadRandomRecipeFailure(
+                error
+              )
             )
           )
+        )
       )
     )
   );
 
   searchItems$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromItemActions.SearchItemsActions.searchItems),
+      ofType(fromRecipeActions.SearchRecipeActions.searchRecipe),
       mergeMap((action) => {
-        const queryString = toQueryString(action.query);
-        return this.itemService.searchItems(queryString).pipe(
+        return this.recipeService.searchRecipes(action.query).pipe(
           map((response) =>
-            fromItemActions.SearchItemsActions.searchItemsSuccess({
-              items: response.items,
+            fromRecipeActions.SearchRecipeActions.searchRecipeSuccess({
+              recipe: response,
             })
           ),
-          catchError(() =>
-            of(fromItemActions.SearchItemsActions.searchItemsFailure())
+          catchError((error) =>
+            of(fromRecipeActions.SearchRecipeActions.searchRecipeFailure(error))
           )
         );
       })
     )
+  );
+
+  getRecipeById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetails
+      ),
+      mergeMap((action) => {
+        return this.recipeService.getRecipeDetails(action.id).pipe(
+          map((response) =>
+            fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsSuccess(
+              {
+                recipe: response,
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetailsFailure(
+                error
+              )
+            )
+          )
+        );
+      })
+    )
+  );
+
+  navigateToRecipeDetails$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          fromRecipeActions.NavigateToRecipeDetailsActions
+            .navigateToRecipeDetailsSuccess
+        ),
+        tap(({ recipe }) => {
+          this.router.navigate(['/recipes', recipe.idMeal]);
+        })
+      ),
+    { dispatch: false }
   );
 }

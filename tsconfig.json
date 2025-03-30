@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2019",
     "module": "esnext",
-    "lib": ["es2018", "dom"],
+    "lib": ["es2019", "dom"],
     "outDir": "./out-tsc/app",
     "sourceMap": true,
     "declaration": false,

@@ -1,43 +1,59 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Item, Pagination } from '../../models/item.model';
+import { Recipe } from '../../models/recipe.model';
 
-export const LoadItemsActions = createActionGroup({
-  source: '[Item] Load Items',
+export const LoadRandomRecipeActions = createActionGroup({
+  source: '[Recipe] Load Random Recipe',
   events: {
-    'Load Items': props<{
-      pagination: Pagination;
-    }>(),
+    'Load Random Recipe': emptyProps(),
 
-    'Load Items Success': props<{
-      items: Item[];
-      pagination: Pagination;
+    'Load Random Recipe Success': props<{
+      recipe: Recipe[];
     }>(),
-    'Load Items Failure': emptyProps(),
+    'Load Random Recipe Failure': props<{
+      error: string;
+    }>(),
   },
 });
 
-export const SearchItemsActions = createActionGroup({
-  source: '[Item]  Search Items',
+export const SearchRecipeActions = createActionGroup({
+  source: '[Recipe]  Search Recipe',
   events: {
-    ' Search Items': props<{
+    ' Search Recipe': props<{
       query: string;
     }>(),
 
-    ' Search Items Success': props<{
-      items: Item[];
+    ' Search Recipe Success': props<{
+      recipe: Recipe[];
     }>(),
-    ' Search Items Failure': emptyProps(),
+    ' Search Recipe Failure': props<{
+      error: string;
+    }>(),
   },
 });
 
-export const AddFavoriteItem = createActionGroup({
-  source: '[Item] Add Favorite Item',
+export const AddFavoriteRecipe = createActionGroup({
+  source: '[Recipe] Add Favorite Recipe',
   events: {
-    'Add Favorite Item': props<{
-      item: Item;
+    'Add Favorite Recipe': props<{
+      recipe: Recipe;
     }>(),
-    'Delete Favorite Item': props<{
-      item: Item;
+    'Delete Favorite Recipe': props<{
+      recipe: Recipe;
+    }>(),
+  },
+});
+
+export const NavigateToRecipeDetailsActions = createActionGroup({
+  source: '[Recipe] Navigate to Recipe Details',
+  events: {
+    'Navigate to Recipe Details': props<{
+      id: string;
+    }>(),
+    'Navigate to Recipe Details Success': props<{
+      recipe: Recipe;
+    }>(),
+    'Navigate to Recipe Details Failure': props<{
+      error: string;
     }>(),
   },
 });

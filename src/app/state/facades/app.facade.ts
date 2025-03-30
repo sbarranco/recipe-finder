@@ -1,44 +1,59 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromItemActions from '../store/actions/app.actions';
+import { Recipe } from '../models/recipe.model';
+import * as fromRecipeActions from '../store/actions/app.actions';
 import {
-  selectLoading,
-  selectFavoriteItems,
   selectCombinedItems,
+  selectError,
+  selectFavoriteRecipies,
+  selectLoading,
+  selectSelectedRecipe,
 } from '../store/selectors/app.selectors';
-import { Item, Pagination } from '../models/item.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppFacade {
   private readonly store = inject(Store);
-  items$: Observable<Item[]> = this.store.select(selectCombinedItems);
+  recipes$: Observable<Recipe[]> = this.store.select(selectCombinedItems);
+  selectedRecipe$: Observable<Recipe | null> =
+    this.store.select(selectSelectedRecipe);
   loading$: Observable<boolean> = this.store.select(selectLoading);
-  favoriteItems$: Observable<Item[]> = this.store.select(selectFavoriteItems);
+  favoriteRecipes$: Observable<Recipe[]> = this.store.select(
+    selectFavoriteRecipies
+  );
+  error$: Observable<string | null> = this.store.select(selectError);
 
-  loadItems(pagination: Pagination): void {
+  loadRandomRecipe(): void {
     this.store.dispatch(
-      fromItemActions.LoadItemsActions.loadItems({ pagination })
+      fromRecipeActions.LoadRandomRecipeActions.loadRandomRecipe()
     );
   }
 
-  searchItems(query: string): void {
+  searchRecipies(query: string): void {
     this.store.dispatch(
-      fromItemActions.SearchItemsActions.searchItems({ query })
+      fromRecipeActions.SearchRecipeActions.searchRecipe({ query })
     );
   }
 
-  addFavoriteItem(item: Item): void {
+  navigateToRecipeDetails(id: string): void {
     this.store.dispatch(
-      fromItemActions.AddFavoriteItem.addFavoriteItem({ item })
+      fromRecipeActions.NavigateToRecipeDetailsActions.navigateToRecipeDetails({
+        id,
+      })
     );
   }
 
-  deleteFavoriteItem(item: Item): void {
+  addFavoriteRecipe(recipe: Recipe): void {
     this.store.dispatch(
-      fromItemActions.AddFavoriteItem.deleteFavoriteItem({ item })
+      fromRecipeActions.AddFavoriteRecipe.addFavoriteRecipe({ recipe })
+    );
+  }
+
+  deleteFavoriteRecipe(recipe: Recipe): void {
+    this.store.dispatch(
+      fromRecipeActions.AddFavoriteRecipe.deleteFavoriteRecipe({ recipe })
     );
   }
 }
