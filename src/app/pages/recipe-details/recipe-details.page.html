@@ -2,15 +2,34 @@
 
 @if (recipe) {
 <div class="recipe-details">
-    <h2>{{ recipe.strMeal }}</h2>
-    <img [src]="recipe.strMealThumb" alt="{{ recipe.strMeal }}" />
-    <h3>Ingredients:</h3>
-    <ul>
-        <li *ngFor="let ingredient of getIngredients()">
-            {{ ingredient }}
-        </li>
-    </ul>
-    <h3>Instructions:</h3>
-    <p>{{ recipe.strInstructions }}</p>
+    <div class="recipe-details__header">
+        <div class="recipe-details__text-content">
+            <h2 class="recipe-details__title">{{ recipe.strMeal }}</h2>
+            <span class="recipe-details__chip">{{ recipe?.strCategory }}</span>
+            <span class="recipe-details__chip">{{ recipe?.strArea }}</span>
+        </div>
+        <img class="recipe-details__image" [src]="recipe.strMealThumb" alt="{{ recipe.strMeal }}" />
+    </div>
+
+    <div class="recipe-details__content">
+        <div class="recipe-details__ingredients">
+            <h3>Ingredients</h3>
+            <ul>
+                @for (ingredient of recipe?.ingredients; track $index) {
+                @if (ingredient) {
+                <li>
+                    <span class="ingredient__measure">{{ ingredient?.measure }}</span>
+                    <span class="ingredient__name">{{ ingredient?.ingredient }}</span>
+                </li>
+                }
+                }
+            </ul>
+        </div>
+
+        <div class="recipe-details__instructions">
+            <h3>Instructions</h3>
+            <p>{{ recipe.strInstructions }}</p>
+        </div>
+    </div>
 </div>
 }
