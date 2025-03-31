@@ -71,7 +71,7 @@ To get started with the Recipe Finder project, follow these steps:
 ### State Management
 
 - **NgRx:** Used for managing application state with actions, reducers, selectors, and effects.
-- **Facade Pattern:** he facade pattern is used to connect the view with the store, making the code more modular, easier to maintain, and more testable.
+- **Facade Pattern:** The facade pattern is used to connect the view with the store, making the code more modular, easier to maintain, and more testable.
 
 ### Testing
 
@@ -136,6 +136,7 @@ src/
 │   ├── pages/              # Feature pages (e.g., RecipeList, RecipeDetails)
 │   ├── services/           # API service for fetching recipe data
 │   ├── state/
+│   │   ├── facade/         # Facade observables and methods from store
 │   │   ├── actions/        # NgRx actions
 │   │   ├── reducers/       # NgRx reducers
 │   │   ├── selectors/      # NgRx selectors
@@ -145,13 +146,6 @@ src/
 │   ├── app.component.ts    # Root component
 
 ```
-
-## Future Enhancements
-
-- Add pagination for recipe search results.
-- Implement user authentication for personalized features.
-- Add the ability to save favorite recipes to a backend or local storage.
-- Improve accessibility by adding ARIA roles and labels.
 
 ## Additional Resources
 
