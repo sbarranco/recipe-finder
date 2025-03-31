@@ -1,7 +1,15 @@
 <div class="search-bar">
     <div class="search-bar__input-container">
-        <i class="fas fa-search search-bar__icon"></i>
-        <input id="search" type="text" [formControl]="search" placeholder="Search for recipe, ingredient or keyword" />
-        <i class="fas fa-times search-bar__clear-icon" *ngIf="search.value" (click)="onClickResetSearch()"></i>
+        <i class="fas fa-search search-bar__icon" aria-hidden="true"></i>
+        <input id="search" type="text" [formControl]="search" placeholder="Search for recipe, ingredient, or keyword"
+            aria-label="Search for recipe, ingredient, or keyword" />
+        <i class="fas fa-times search-bar__clear-icon" *ngIf="search.value" (click)="onClickResetSearch()"
+            aria-label="Clear search input" role="button"></i>
+    </div>
+    <div class="search-bar__actions">
+        <app-button text="Random Recipe" icon="fas fa-random" buttonType="primary" ariaLabel="Get a random recipe"
+            (onClick)="onClickRandomRecipe()"></app-button>
+        <app-button text="Clear List" icon="fas fa-times" buttonType="secondary" ariaLabel="Clear the search list"
+            (onClick)="onClickClearList()"></app-button>
     </div>
 </div>
