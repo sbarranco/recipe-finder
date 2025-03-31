@@ -24,7 +24,7 @@ To get started with the Recipe Finder project, follow these steps:
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/yourusername/recipe-finder.git
+   git clone https://github.com/sbarranco/recipe-finder.git
    ```
 
 2. **Navigate to the project directory:**
