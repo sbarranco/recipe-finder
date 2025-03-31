@@ -16,7 +16,8 @@ import {
 })
 export class AppFacade {
   private readonly store = inject(Store);
-  recipes$: Observable<Recipe[]> = this.store.select(selectCombinedItems);
+  recipes$: Observable<Recipe[] | null | undefined> =
+    this.store.select(selectCombinedItems);
   selectedRecipe$: Observable<Recipe | null> =
     this.store.select(selectSelectedRecipe);
   loading$: Observable<boolean> = this.store.select(selectLoading);
@@ -55,5 +56,9 @@ export class AppFacade {
     this.store.dispatch(
       fromRecipeActions.AddFavoriteRecipe.deleteFavoriteRecipe({ recipe })
     );
+  }
+
+  resetRecipesList(): void {
+    this.store.dispatch(fromRecipeActions.resetRecipesList());
   }
 }

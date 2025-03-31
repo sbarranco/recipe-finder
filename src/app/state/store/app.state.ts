@@ -1,7 +1,7 @@
 import { Recipe } from '../models/recipe.model';
 
 export interface AppState {
-  recipies: Recipe[];
+  recipies: Recipe[] | null;
   selectedRecipe: Recipe | null;
   favoriteRecipies: Recipe[];
   loading: boolean;

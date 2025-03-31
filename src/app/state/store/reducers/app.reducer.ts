@@ -3,7 +3,7 @@ import * as recipeActions from '../actions/app.actions';
 import { AppState, RecipeState } from '../app.state';
 
 const initialAppState: AppState = {
-  recipies: [],
+  recipies: null,
   selectedRecipe: null,
   favoriteRecipies: [],
   loading: false,
@@ -33,7 +33,7 @@ const appReducer = createReducer(
     (state, action) => ({
       ...state,
       loading: false,
-      recipies: action.recipe,
+      recipies: action.recipe || [],
     })
   ),
   on(
@@ -50,7 +50,7 @@ const appReducer = createReducer(
     (state, action) => ({
       ...state,
       loading: false,
-      recipies: action.recipe,
+      recipies: action.recipe || [],
     })
   ),
   on(recipeActions.SearchRecipeActions.searchRecipeFailure, (state, action) =>
@@ -84,6 +84,10 @@ const appReducer = createReducer(
     favoriteRecipies: state.favoriteRecipies.filter(
       (item) => item.idMeal !== action.recipe.idMeal
     ),
+  })),
+  on(recipeActions.resetRecipesList, (state) => ({
+    ...state,
+    recipies: [],
   }))
 );
 

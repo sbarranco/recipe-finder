@@ -30,7 +30,7 @@ export const selectCombinedItems = createSelector(
   selectRecipies,
   selectFavoriteRecipies,
   (items, favoriteItems) => {
-    return items.map((item) => ({
+    return items?.map((item) => ({
       ...item,
       isFavorite: favoriteItems.some(
         (favItem) => favItem.idMeal === item.idMeal

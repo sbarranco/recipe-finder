@@ -77,7 +77,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 8px;
-        font-size: 1rem;
+        font-size: $font-size-base;
         color: $text-color;
 
         .ingredient__measure {
@@ -103,8 +103,8 @@
     }
 
     p {
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: $font-size-base;
+      line-height: $line-height-base;
       color: $text-color;
     }
   }

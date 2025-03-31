@@ -1,4 +1,9 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import {
+  createAction,
+  createActionGroup,
+  emptyProps,
+  props,
+} from '@ngrx/store';
 import { Recipe } from '../../models/recipe.model';
 
 export const LoadRandomRecipeActions = createActionGroup({
@@ -57,3 +62,5 @@ export const GetRecipeDetailsActions = createActionGroup({
     }>(),
   },
 });
+
+export const resetRecipesList = createAction('[Recipe] Reset Recipes List');

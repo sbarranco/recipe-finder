@@ -1,8 +1,17 @@
-<app-search-bar (searchItems)="onClickSearchItems($event)" (resetSearch)="onClickResetSearch()"></app-search-bar>
+<app-search-bar (searchItems)="onClickSearchItems($event)" (resetSearch)="onClickResetSearch()"
+    (randomRecipe)="onClickRandomRecipe()" (clearList)="onClickClearList()"></app-search-bar>
 
-@for (recipe of recipes$ | async; track $index) {
-<app-recipe-card [recipe]="recipe" (triggerFavorite)="onTriggerFavorite(recipe)"
-    (viewDetails)="viewRecipeDetails(recipe.idMeal)"></app-recipe-card>
-} @empty {
-<p>No recipes found.</p>
-}
+<div class="app-item-list__container">
+    @if (isLoading$ | async) {
+    <p class="app-item-list__loading">Loading recipes...</p>
+    } @else {
+    @if (isSearchActive() && (recipes$ | async)?.length === 0) {
+    <p class="app-item-list__empty">No recipes found. Try searching for something else!</p>
+    } @else {
+    @for (recipe of recipes$ | async; track $index) {
+    <app-recipe-card [recipe]="recipe" (triggerFavorite)="onTriggerFavorite(recipe)"
+        (viewDetails)="viewRecipeDetails(recipe.idMeal)"></app-recipe-card>
+    }
+    }
+    }
+</div>
