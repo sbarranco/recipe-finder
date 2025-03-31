@@ -1,0 +1,7 @@
+<button class="app-button" [ngClass]="buttonType()" [disabled]="disabled()" (click)="onClick.emit()"
+    [attr.aria-label]="ariaLabel()">
+    @if (icon()) {
+    <i [class]="icon()" class="app-button__icon"></i>
+    }
+    <span class="app-button__text">{{ text() }}</span>
+</button>

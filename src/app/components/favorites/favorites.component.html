@@ -1,10 +1,12 @@
-@if(isOpen()) {
-<div class="favorites" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+@if (isOpen()) {
+<div class="favorites" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel"
+    [attr.aria-hidden]="!isOpen() ? 'true' : null" [inert]="!isOpen() ? true : null">
     <div class="favorites__dialog">
         <div class="favorites__content">
             <header class="favorites__header">
                 <h5 class="favorites__title" id="favoritesModalLabel">Favorites</h5>
-                <button type="button" class="favorites__close" aria-label="Close" (click)="closeModal.emit()">
+                <button type="button" class="favorites__close" aria-label="Close" (click)="closeModal.emit()"
+                    #closeButton>
                     &times;
                 </button>
             </header>
@@ -15,14 +17,11 @@
                     <div class="favorites__item-details">
                         <span class="favorites__item-title">{{ item.strMeal }}</span>
                         <div class="favorites__actions">
-                            <button class="favorites__button favorites__button--remove"
-                                (click)="onDeleteFavorites(item)">
-                                Remove
-                            </button>
-                            <button class="favorites__button favorites__button--view"
-                                (click)="onViewRecipeDetails(item.idMeal)">
-                                View Recipe
-                            </button>
+                            <app-button text="Remove" buttonType="secondary" ariaLabel="Remove recipe from favorites"
+                                (onClick)="onDeleteFavorites(item)"></app-button>
+
+                            <app-button text="View Recipe" buttonType="primary" ariaLabel="View Recipe"
+                                (onClick)="onViewRecipeDetails(item.idMeal)"></app-button>
                         </div>
                     </div>
                 </div>
