@@ -75,7 +75,7 @@ To get started with the Recipe Finder project, follow these steps:
 
 ### Testing
 
-- **Jest:**A JavaScript testing framework for unit tests.
+- **Jest:** A JavaScript testing framework for unit tests.
 
 ### Styling
 
