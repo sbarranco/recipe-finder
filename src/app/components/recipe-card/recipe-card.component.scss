@@ -30,8 +30,8 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -41,7 +41,7 @@
       cursor: pointer;
 
       i {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         color: #ff6b6b;
       }
 
@@ -54,35 +54,35 @@
   &__content {
     text-align: center;
     margin: 16px 0;
+  }
 
-    &__title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 8px;
+  &__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: $text-color;
+  }
+
+  &__chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    .app-recipe-card__chip {
+      background-color: $secondary-color;
       color: $text-color;
-    }
-
-    &__chips {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 8px;
-
-      .app-recipe-card__chip {
-        background-color: $secondary-color;
-        color: $text-color;
-        font-size: 0.875rem;
-        font-weight: 500;
-        padding: 4px 8px;
-        border-radius: 16px;
-        text-transform: capitalize;
-      }
-    }
-
-    &__description {
       font-size: 0.875rem;
-      color: #666;
-      line-height: 1.4;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 16px;
+      text-transform: capitalize;
     }
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.4;
   }
 }
