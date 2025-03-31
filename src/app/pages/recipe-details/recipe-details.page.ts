@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs';
 import { AppFacade } from '../../state/facades/app.facade';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-recipe-details-page',
   templateUrl: './recipe-details.page.html',
-  styleUrl: './recipe-details.page.scss',
-  imports: [CommonModule],
+  styleUrls: ['./recipe-details.page.scss'],
+  imports: [CommonModule, ButtonComponent],
 })
 export class RecipeDetailsPage implements OnInit {
   private appFacade = inject(AppFacade);
@@ -16,13 +16,11 @@ export class RecipeDetailsPage implements OnInit {
   recipe$ = this.appFacade.selectedRecipe$;
 
   ngOnInit(): void {
-    const recipeId: string | null = this.route.snapshot.paramMap.get('id');
-    this.recipe$ = this.recipe$.pipe(
-      tap((recipe) => {
-        if (!recipe || recipe.idMeal !== recipeId) {
-          this.appFacade.getRecipeDetails(recipeId || '');
-        }
-      })
-    );
+    const recipeId = this.route.snapshot.paramMap.get('id') || '';
+    this.appFacade.getRecipeDetails(recipeId);
+  }
+
+  goBack(): void {
+    window.history.back();
   }
 }

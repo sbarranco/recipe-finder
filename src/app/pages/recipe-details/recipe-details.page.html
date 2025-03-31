@@ -1,17 +1,22 @@
 @let recipe = recipe$ | async;
 
+<app-button text="Back" icon="fas fa-arrow-left" buttonType="primary" ariaLabel="Go back to the previous page"
+    (onClick)="goBack()"></app-button>
+
 @if (recipe) {
 <div class="recipe-details">
-    <div class="recipe-details__header">
+    <header class="recipe-details__header">
         <div class="recipe-details__text-content">
             <h2 class="recipe-details__title">{{ recipe.strMeal }}</h2>
-            <span class="recipe-details__chip">{{ recipe?.strCategory }}</span>
-            <span class="recipe-details__chip">{{ recipe?.strArea }}</span>
+            <div class="recipe-details__chips">
+                <span class="recipe-details__chip">{{ recipe?.strCategory }}</span>
+                <span class="recipe-details__chip">{{ recipe?.strArea }}</span>
+            </div>
         </div>
-        <img class="recipe-details__image" [src]="recipe.strMealThumb" alt="{{ recipe.strMeal }}" />
-    </div>
+        <img class="recipe-details__image" [src]="recipe.strMealThumb" [alt]="recipe.strMeal" />
+    </header>
 
-    <div class="recipe-details__content">
+    <section class="recipe-details__content">
         <div class="recipe-details__ingredients">
             <h3>Ingredients</h3>
             <ul>
@@ -30,6 +35,6 @@
             <h3>Instructions</h3>
             <p>{{ recipe.strInstructions }}</p>
         </div>
-    </div>
+    </section>
 </div>
 }
