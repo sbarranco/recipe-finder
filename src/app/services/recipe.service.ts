@@ -30,16 +30,14 @@ export class RecipeService {
 
   private processRecipes(recipes: Recipe[]): Recipe[] {
     return recipes.map((recipe) => {
-      const ingredients = [];
-      for (let i = 1; i <= 20; i++) {
+      const ingredients = Array.from({ length: 20 }, (_, i) => {
         const ingredient = recipe[
-          `strIngredient${i}` as keyof Recipe
+          `strIngredient${i + 1}` as keyof Recipe
         ] as string;
-        const measure = recipe[`strMeasure${i}` as keyof Recipe] as string;
-        if (ingredient && ingredient.trim()) {
-          ingredients.push({ ingredient, measure });
-        }
-      }
+        const measure = recipe[`strMeasure${i + 1}` as keyof Recipe] as string;
+        return ingredient && ingredient.trim() ? { ingredient, measure } : null;
+      }).filter((item) => item !== null);
+
       return {
         ...recipe,
         ingredients,

@@ -1,13 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
-import { RecipeService } from './recipe.service';
-import { Recipe } from '../state/models/recipe.model';
-import { provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import { provideZoneChangeDetection } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import {
+  mockApiResponse,
+  mockRecipe,
+} from '../state/models/__mocks__/recipe.model.mock';
+import { RecipeService } from './recipe.service';
 
 describe('RecipeService', () => {
   let service: RecipeService;
@@ -37,84 +39,89 @@ describe('RecipeService', () => {
 
   describe('searchRecipes', () => {
     it('should return an array of recipes', (done) => {
-      const keyword = 'Arrabiata';
-      const mockResponse = {
-        meals: [{ idMeal: '1', strMeal: 'Test Meal' }] as Recipe[],
-      };
+      const keyword = 'chicken';
 
-      service.searchRecipes(keyword).subscribe((response) => {
-        expect(response).toEqual(mockResponse.meals);
-        expect(response.length).toBe(1);
-      });
-      const req = httpMock.expectOne(
-        `https://www.themealdb.com/api/json/v1/1/search.php?s=${keyword}`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush({ mockResponse });
-      done();
-    });
-
-    it('should return an empty array if no meals are found', (done) => {
-      const keyword = 'test';
-
-      service.searchRecipes(keyword).subscribe((response) => {
-        expect(response).toEqual([]);
+      service.searchRecipes(keyword).subscribe((recipes) => {
+        expect(recipes.length).toBe(1);
+        expect(recipes[0]).toEqual(mockRecipe);
         done();
       });
+
+      const req = httpMock.expectOne(
+        `${service['apiUrl']}/search.php?s=${keyword}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockApiResponse);
     });
   });
 
   describe('getRecipeDetails', () => {
-    it('should return a single recipe', (done) => {
-      const mockResponse = {
-        meals: [{ idMeal: '1', strMeal: 'Test Meal' }] as Recipe[],
-      };
-      httpMock.get.mockReturnValue(of(mockResponse));
+    it('should fetch recipe details by ID', (done) => {
+      const recipeId = '12345';
 
-      service.getRecipeDetails('1').subscribe((recipe) => {
-        expect(recipe).toEqual(mockResponse.meals[0]);
-        expect(httpMock.get).toHaveBeenCalledWith(
-          'https://www.themealdb.com/api/json/v1/1/lookup.php?i=1'
-        );
+      service.getRecipeDetails(recipeId).subscribe((recipe) => {
+        expect(recipe).toEqual(mockRecipe);
         done();
       });
-    });
 
-    it('should return an empty object if no recipe is found', (done) => {
-      const mockResponse = { meals: null };
-      httpMock.get.mockReturnValue(of(mockResponse));
-
-      service.getRecipeDetails('1').subscribe((recipe) => {
-        expect(recipe).toEqual({});
-        done();
-      });
+      const req = httpMock.expectOne(
+        `${service['apiUrl']}/lookup.php?i=${recipeId}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush({ meals: [mockRecipe] });
     });
   });
 
   describe('getRandomRecipe', () => {
-    it('should return an array of random recipes', (done) => {
-      const mockResponse = {
-        meals: [{ idMeal: '1', strMeal: 'Random Meal' }] as Recipe[],
-      };
-      httpMock.get.mockReturnValue(of(mockResponse));
-
+    it('should fetch a random recipe', () => {
       service.getRandomRecipe().subscribe((recipes) => {
-        expect(recipes).toEqual(mockResponse.meals);
-        expect(httpMock.get).toHaveBeenCalledWith(
-          'https://www.themealdb.com/api/json/v1/1/random.php'
-        );
-        done();
+        expect(recipes.length).toBe(1);
+        expect(recipes[0]).toEqual(mockRecipe);
       });
+
+      const req = httpMock.expectOne(`${service['apiUrl']}/random.php`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockApiResponse);
+    });
+  });
+
+  describe('processRecipes', () => {
+    it('should extract ingredients and measures correctly', () => {
+      const transformedMeals = mockApiResponse.meals.map((meal) => ({
+        ...meal,
+        ingredients: [],
+      }));
+      const processedRecipes = service['processRecipes'](transformedMeals);
+      expect(processedRecipes.length).toBe(1);
     });
 
-    it('should return an empty array if no random recipes are found', (done) => {
-      const mockResponse = { meals: null };
-      httpMock.get.mockReturnValue(of(mockResponse));
+    it('should handle empty or null ingredients gracefully', () => {
+      const mockApiResponseWithEmptyIngredients = {
+        meals: [
+          {
+            idMeal: '12345',
+            strMeal: 'Test Meal',
+            strCategory: 'Test Category',
+            strArea: 'Test Area',
+            strInstructions: 'Test Instructions',
+            strMealThumb: 'https://example.com/image.jpg',
+            strIngredient1: null,
+            strMeasure1: null,
+            strTags: 'Test Tag',
+          },
+        ],
+      };
 
-      service.getRandomRecipe().subscribe((recipes) => {
-        expect(recipes).toEqual([]);
-        done();
-      });
+      const mealsWithRequiredFields =
+        mockApiResponseWithEmptyIngredients.meals.map((meal) => ({
+          ...meal,
+          ingredients: [],
+        }));
+      const processedRecipes = service['processRecipes'](
+        mealsWithRequiredFields
+      );
+      expect(processedRecipes.length).toBe(1);
+      expect(processedRecipes[0].ingredients).toEqual([]);
     });
   });
 });

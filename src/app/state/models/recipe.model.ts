@@ -7,7 +7,6 @@ export interface Recipe {
   ingredients: Ingredients[];
   strMealThumb: string;
   strTags: string;
-  strYoutube: string;
   isFavorite?: boolean;
 }
 
