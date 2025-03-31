@@ -1,13 +1,12 @@
 <nav class="app-nav">
-  <img src="assets/images/logo/logo.png" alt="Item Manager" class="app-nav__logo" />
-  <button class="app-nav__button" (click)="openFavoritesModal()">
-    Favorites
-  </button>
+  <img src="assets/logo/logo.png" alt="Item Manager" class="app-nav__logo" />
+  <app-button text="Favorites" icon="fas fa-heart" buttonType="primary" ariaLabel="Open favorites modal"
+    (onClick)="openFavoritesModal()"></app-button>
 </nav>
 <header class="app-header">
   <h1 class="app-header__title">Welcome to the Recipe Finder!</h1>
   <h2 class="app-header__subtitle">
-    Discover and save your favorite recipes.
+    Search and save your favorite recipes.
   </h2>
 </header>
 <main class="app-container">

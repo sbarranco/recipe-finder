@@ -13,20 +13,7 @@
     padding: 1rem;
 
     &__logo {
-      width: 15rem;
-    }
-
-    &__button {
-      background-color: $primary-color;
-      font-weight: bold;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-
-      &:hover {
-        background-color: color.adjust($primary-color, $lightness: -10%);
-      }
+      width: 10rem;
     }
   }
 
@@ -48,7 +35,7 @@
 
   .app-container {
     flex-grow: 1;
-    padding: 0 2rem;
+    padding: 0 2rem 2rem 2rem;
   }
 
   .app-footer {
@@ -59,7 +46,6 @@
     &__text {
       margin: 0;
       font-size: 0.875rem;
-      color: $text-color;
     }
   }
 }
