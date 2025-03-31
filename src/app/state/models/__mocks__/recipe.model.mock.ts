@@ -7,20 +7,11 @@ export const mockRecipe: Recipe = {
   strArea: 'Test Area',
   strInstructions: 'Test Instructions',
   strMealThumb: 'https://example.com/image.jpg',
-  strTags: 'Test Tag',
+  strTags: '',
   ingredients: [],
+  isFavorite: false,
 };
 
 export const mockApiResponse = {
-  meals: [
-    {
-      idMeal: '12345',
-      strMeal: 'Test Meal',
-      strCategory: 'Test Category',
-      strArea: 'Test Area',
-      strInstructions: 'Test Instructions',
-      strMealThumb: 'https://example.com/image.jpg',
-      strTags: 'Test Tag',
-    },
-  ],
+  meals: [mockRecipe],
 };
