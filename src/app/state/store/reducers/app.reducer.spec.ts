@@ -1,78 +1,127 @@
-// import { appReducerReducerFunction } from './app.reducer';
-// import * as itemActions from '../actions/app.actions';
-// import { AppState } from '../app.state';
-// import { Recipe } from '../../models/item.model';
-// import {
-//   createMockItem,
-//   createMockItemList,
-// } from '../../models/__mocks__/item.model.mock';
+import { appReducerReducerFunction } from './app.reducer';
+import * as recipeActions from '../actions/app.actions';
+import { AppState } from '../app.state';
+import { mockRecipe } from '../../models/__mocks__/recipe.model.mock';
 
-// describe('App Reducer', () => {
-//   const initialState: AppState = {
-//     items: [],
-//     favoriteItems: [],
-//     loading: false,
-//   };
+describe('App Reducer', () => {
+  const initialState: AppState = {
+    recipies: null,
+    selectedRecipe: null,
+    favoriteRecipies: [],
+    loading: false,
+    error: null,
+  };
 
-//   it('should set loading to true on loadItems action', () => {
-//     const pagination = { limit: 5, start: 0 };
-//     const action = itemActions.LoadItemsActions.loadItems({ pagination });
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(true);
-//   });
+  it('should set loading to true on loadRandomRecipe action', () => {
+    const action = recipeActions.LoadRandomRecipeActions.loadRandomRecipe();
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(true);
+  });
 
-//   it('should set loading to false and update items on loadItemsSuccess action', () => {
-//     const items: Recipe[] = createMockItemList();
-//     const action = itemActions.LoadItemsActions.loadItemsSuccess({
-//       items,
-//       pagination: { limit: 5, start: 0 },
-//     });
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(false);
-//     expect(state.items).toEqual(items);
-//   });
+  it('should set loading to false and update recipes on loadRandomRecipeSuccess action', () => {
+    const action =
+      recipeActions.LoadRandomRecipeActions.loadRandomRecipeSuccess({
+        recipe: [mockRecipe],
+      });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.recipies).toEqual([mockRecipe]);
+  });
 
-//   it('should set loading to false on loadItemsFailure action', () => {
-//     const action = itemActions.LoadItemsActions.loadItemsFailure();
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(false);
-//   });
+  it('should set error and loading to false on loadRandomRecipeFailure action', () => {
+    const error = 'Failed to load random recipe';
+    const action =
+      recipeActions.LoadRandomRecipeActions.loadRandomRecipeFailure({
+        error,
+      });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.error).toBe(error);
+  });
 
-//   it('should set loading to true on searchItems action', () => {
-//     const action = itemActions.SearchItemsActions.searchItems({ query: '' });
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(true);
-//   });
+  it('should set loading to true on searchRecipe action', () => {
+    const action = recipeActions.SearchRecipeActions.searchRecipe({
+      query: 'Test',
+    });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(true);
+  });
 
-//   it('should set loading to false and update items on searchItemsSuccess action', () => {
-//     const items: Recipe[] = [createMockItem()];
-//     const action = itemActions.SearchItemsActions.searchItemsSuccess({ items });
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(false);
-//     expect(state.items).toEqual(items);
-//   });
+  it('should set loading to false and update recipes on searchRecipeSuccess action', () => {
+    const action = recipeActions.SearchRecipeActions.searchRecipeSuccess({
+      recipe: [mockRecipe],
+    });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.recipies).toEqual([mockRecipe]);
+  });
 
-//   it('should set loading to false on searchItemsFailure action', () => {
-//     const action = itemActions.SearchItemsActions.searchItemsFailure();
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.loading).toBe(false);
-//   });
+  it('should set error and loading to false on searchRecipeFailure action', () => {
+    const error = 'Failed to search recipes';
+    const action = recipeActions.SearchRecipeActions.searchRecipeFailure({
+      error,
+    });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.error).toBe(error);
+  });
 
-//   it('should add item to favoriteItems on addFavoriteItem action', () => {
-//     const item: Recipe = createMockItem();
-//     const action = itemActions.AddFavoriteItem.addFavoriteItem({ item });
-//     const state = appReducerReducerFunction(initialState, action);
-//     expect(state.favoriteItems).toContain(item);
-//   });
+  it('should set loading to true on getRecipeDetails action', () => {
+    const action = recipeActions.GetRecipeDetailsActions.getRecipeDetails({
+      id: '12345',
+    });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(true);
+  });
 
-//   it('should remove item from favoriteItems on deleteFavoriteItem action', () => {
-//     const item: Recipe = createMockItem();
-//     const initialStateWithFavorite: AppState = {
-//       ...initialState,
-//       favoriteItems: [item],
-//     };
-//     const action = itemActions.AddFavoriteItem.deleteFavoriteItem({ item });
-//     const state = appReducerReducerFunction(initialStateWithFavorite, action);
-//     expect(state.favoriteItems).not.toContain(item);
-//   });
-// });
+  it('should set loading to false and update selectedRecipe on getRecipeDetailsSuccess action', () => {
+    const action =
+      recipeActions.GetRecipeDetailsActions.getRecipeDetailsSuccess({
+        recipe: mockRecipe,
+      });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.selectedRecipe).toEqual(mockRecipe);
+  });
+
+  it('should set error and loading to false on getRecipeDetailsFailure action', () => {
+    const error = 'Failed to get recipe details';
+    const action =
+      recipeActions.GetRecipeDetailsActions.getRecipeDetailsFailure({
+        error,
+      });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.loading).toBe(false);
+    expect(state.error).toBe(error);
+  });
+
+  it('should add a recipe to favoriteRecipies on addFavoriteRecipe action', () => {
+    const action = recipeActions.AddFavoriteRecipe.addFavoriteRecipe({
+      recipe: mockRecipe,
+    });
+    const state = appReducerReducerFunction(initialState, action);
+    expect(state.favoriteRecipies).toContain(mockRecipe);
+  });
+
+  it('should remove a recipe from favoriteRecipies on deleteFavoriteRecipe action', () => {
+    const initialStateWithFavorite: AppState = {
+      ...initialState,
+      favoriteRecipies: [mockRecipe],
+    };
+    const action = recipeActions.AddFavoriteRecipe.deleteFavoriteRecipe({
+      recipe: mockRecipe,
+    });
+    const state = appReducerReducerFunction(initialStateWithFavorite, action);
+    expect(state.favoriteRecipies).not.toContain(mockRecipe);
+  });
+
+  it('should reset recipes on resetRecipesList action', () => {
+    const initialStateWithRecipes: AppState = {
+      ...initialState,
+      recipies: [mockRecipe],
+    };
+    const action = recipeActions.resetRecipesList();
+    const state = appReducerReducerFunction(initialStateWithRecipes, action);
+    expect(state.recipies).toEqual([]);
+  });
+});
